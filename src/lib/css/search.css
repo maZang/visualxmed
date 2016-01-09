@@ -8,7 +8,7 @@
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: rgba(140,252,252,0.7);
+	background: rgba(252,252,252,0.9);
 	overflow: auto;
 }
 
@@ -52,17 +52,6 @@
 	.overlay ul li {
 		min-height: 34px;
 	}
-}
-
-button.search {
-	border: none;
-	display:block;
-	width:24px;
-	height:60px;
-	margin-left: 30px;
-	line-height: 36px;
-	text-align: center;
-   	background: transparent url(../glyphicons_free/glyphicons/png/glyphicons-28-search.png) no-repeat top center;
 }
 
 .search-input {
@@ -110,13 +99,6 @@ div.icon:hover {
 	cursor: pointer;
 }
 
-input#search:hover, input#search:focus {
-	color: #3b3b3b;
-	border: 1px solid #36a2d2;
-	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);
-	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);
-}
 h4#results-text {
 	display: none;
 	text-align: center;

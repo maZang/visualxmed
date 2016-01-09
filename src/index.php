@@ -1,53 +1,3 @@
-<?php 
-class InfoGraphics {
-   public $name;
-   public $date;
-   public $descrip;
-   public $title;
-
-   function __construct($Name, $Date, $Descrip, $Title) {
-      $this->name = $Name;
-      $this->date = $Date;
-      $this->descrip = $Descrip;
-      $this->title = $Title;
-   }
-}
-
-$link = mysqli_connect('localhost', 'root', 'root'); 
-if (!$link) 
-{ 
-  $output = 'Unable to connect to the database server.'; 
-  $error = true;
-} 
-else if (!mysqli_set_charset($link, 'utf8')) 
-{ 
-  $output = 'Unable to set database connection encoding.'; 
-  $error = true;
-} 
-else if (!mysqli_select_db($link, 'vmdb')) 
-{ 
-  $output = 'Unable to locate the VisualXMed database.';  
-  $error = true;
-} 
-else {
-   $output = 'Database connection established.'; 
-   $error = false;
-}
-if (!$error) {
-   $result = mysqli_query($link, "SELECT * FROM infographics GROUP BY name ORDER BY max(createtime) desc LIMIT 6");
-   if (!$result) {
-      $output = "Error fetching recent infographics: " . mysqli_error($link);
-      $error = true;
-   }
-
-   if (!$error) {
-      while ($row = mysqli_fetch_array($result)) {
-         $recentinfo[] = new Infographics($row['name'],$row['createtime'],$row['descrip'],$row['title']);
-      }
-      $count = count($recentinfo);
-   }
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,84 +38,67 @@ if (!$error) {
    <script src="lib/jquery/jquery-2.1.4.js"></script>
    <script src="lib/js/modernizr.custom.js"></script>
    <script src="lib/js/search.js"></script>
+   <script src="lib/js/classie.js"></script>
+   <script>
+   $(document).ready(function(){
+      function getresult(url) {
+         $.ajax({
+            url: url,
+            type: "GET",
+            data:  {rowcount:$("#rowcount").val()},
+            beforeSend: function(){
+            $('#loader-icon').show();
+            },
+            complete: function(){
+            $('#loader-icon').hide();
+            },
+            success: function(data){
+            $("#infograph-result").append(data);
+            },
+            error: function(){}          
+         });
+      }
+      $(window).scroll(function(){
+         if ($(window).scrollTop() == $(document).height() - $(window).height()){
+            if($(".pagenum:last").val() <= $(".total-page").val()) {
+               var pagenum = parseInt($(".pagenum:last").val()) + 1;
+               getresult('getresult.php?page='+pagenum);
+            }
+         }
+      }); 
+   });
+   </script>
 </head>
 
 <body>
-<header>
-   <button id="trigger-overlay" type="button" class="regtext search">Search</button>
-   <div class="container px2 py3">
-      <div class="clearfix h2">
+<header class="hide-on-search">
+   <div class="container-fluid">
+      <div class="clearfix">
          <div class="row">
-            <div class="col-12">
-               <div class="header mb2">
-                  <img class="logo lg-col-4 sm-col-6 align-middle" src="lib/images/logo.png" />
-                  <h1 class="slogan align-bottom center sm-col-6 lg-col-8 inline-block mxn1">where visuals empower health literacy</h1>
-               </div>
+            <div class="header mb2">
+               <button id="trigger-overlay" type="button" class="regtext navbutton search col-xs-1 col-sm-1 col-md-1 col-lg-1 align-middle">
+                  <img src="lib/glyphicons_free/glyphicons/png/glyphicons-28-search.png" />
+                  Search</button>
+               <img class="logo col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 align-middle" src="lib/images/logo.png" />
+               <h1 class="slogan align-bottom center col-xs-1 col-sm-1 col-md-1 col-lg-1 inline-block mxn1">where visuals empower health literacy</h1>
             </div>
-         </div>
-
-         <div class="row">   
-            <nav class="clearfix center nav-hover">
-               <a href="#" class="btn navbutton p0 py3 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2 active">Home</a>
-               <a href="about.html" class="btn navbutton p0 py3 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">About</a>
-               <a href="mission.html" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Mission</a>
-               <a href="#" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Opportunities</a>
-               <a href="contact.html" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Contact Us</a>
+            <nav class="center nav-hover">
+               <a href="index.php" class="btn navbutton p0 py3 mxn1 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-1 col-sm-1 col-md-1 col-lg-1 active">Home</a>
+               <a href="about.html" class="btn navbutton p0 py3 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">About</a>
+               <a href="mission.html" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Mission</a>
+               <a href="#" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Opportunities</a>
+               <a href="contact.html" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Contact Us</a>
             </nav>
          </div>
       </div>
    </div>
 </header>
 <main>
-   <section class="container px2 py2">
-      <h3 class="mb3 regular center title">
-         Latest Infographics
-      </h3>
-      <?php 
-      $accum = 0;
-      if ($error) {
-         echo $output; 
-      } 
-      else {
-         $prev = $count - 1;
-         $next = 1;
-         for ($i = 0; $i < ceil($count/3); $i++) { ?> 
-         <div class="clearfix"> </div>
-         <div class="row">
-            <?php for ($j = 0; $j < 3 && $accum < $count; $j++, $accum++) { ?>
-               <div class="cols-xs-4 col-sm-4 col-md-4 col-lg-4 mb3"> 
-               <div class="container-limit">
-                  <div class="thumbnaili picitem">
-                     <a href="<?php echo "#image-" . $accum ?>"> 
-                        <img class="img-responsive portrait" src="<?php echo ("lib/images/" . $recentinfo[$accum]->name . ".jpg"); ?>" />
-                        <span> <p class="title-info"> <?php echo ($recentinfo[$accum]->title); echo "</p> <p class='date'>"; 
-                                    echo (date('F-d-Y', strtotime($recentinfo[$accum]->date))); ?> </p> </span>
-                     </a>
-                  </div>
-                  <div class="overlay-info" id="<?php echo "image-" . $accum ?>">
-                     <img class="img-responsive" src="<?php echo ("lib/images/" . $recentinfo[$accum]->name . ".jpg"); ?>" />
-                     <div>
-                           <h3> <?php echo $recentinfo[$accum]->title ?> </h3> </span>
-                           <p> <?php echo nl2br($recentinfo[$accum]->descrip) ?> </p>
-                           <a href="<?php echo "#image-" . $prev ?>" class="prev"> Prev </a>
-                           <a href="<?php echo "#image-" . $next ?>" class="next"> Next </a>
-                     </div>
-                     <a href="#page" class="close">xCLOSE </a>
-                  </div>
-               </div> 
-               <!-- <?php echo htmlspecialchars($recentinfo[$accum], ENT_QUOTES, 'UTF-8'); echo ceil($count/4);?> -->
-               </div> 
-               <?php 
-                  $prev = $accum;
-                  $next = $accum + 2; 
-                  if ($prev >= $count) {
-                     $prev = 0;
-                  }
-                  if ($next >= $count) {
-                     $next = 0;
-                  }
-               } ?> </div>
-      <?php } } ?> 
+   <section class="container-fluid infographic-holder">
+      <div id="infograph-result">
+         <?php include('getresult.php'); ?>
+      </div>
+      <div id="loader-icon"><img src="lib/images/LoaderIcon.gif" /><div>
     </section>
 </main>
 <footer>
@@ -184,31 +117,85 @@ if (!$error) {
     <div class="overlay overlay-contentscale hover-effect">
       <button type="button" class="overlay-close">Close</button>
       <div class="icon"></div>
-      <h1 class="title"> Search For Infographics </h1>
+      <h1 class="title"> Click On Magnifying Glass To Discover </h1>
       <input id="search" class="search-input" 
          placeholder="Type here to search...">
       <h4 id="results-text"> Showing results for: <b id="search-string"></b> </h4>
       <ul id="results"> </ul>
    </div>
-<script src="lib/js/classie.js"></script>
 <script>
-   (function() {
-   var triggerBttn = document.getElementById( 'trigger-overlay' ),
-      overlay = document.querySelector( 'div.overlay' ),
-      closeBttn = overlay.querySelector( 'button.overlay-close' );
-
-   function toggleOverlay() {
-      if( classie.has( overlay, 'open' ) ) {
-         classie.remove( overlay, 'open' );
-      }
+   var bodyElem = document.getElementsByTagName("body")[0];
+   function hashChanged(storedHash) {
+      var hash = storedHash.substring(1);
+      if (hash.length > 0 && hash != "page") {
+         classie.add(bodyElem, 'modal-open');
+         $(".header").hide();
+      } 
       else {
-         classie.add( overlay, 'open' );
+         classie.remove(bodyElem, 'modal-open');
+         $(".header").show();
       }
    }
-
-   triggerBttn.addEventListener( 'click', toggleOverlay );
-   closeBttn.addEventListener( 'click', toggleOverlay );
+   if ("onhashchange" in window) { 
+       window.onhashchange = function () {
+           hashChanged(window.location.hash);
+       }
+   }
+   else { 
+       var storedHash = window.location.hash;
+       window.setInterval(function () {
+           if (window.location.hash != storedHash) {
+               storedHash = window.location.hash;
+               hashChanged(storedHash);
+           }
+       }, 100);
+   }
+   hashChanged(window.location.hash);
+</script>
+<script>
+   (function() {
+   var triggerBttn = document.getElementById('trigger-overlay'),
+      overlay = document.querySelector('div.overlay'),
+      closeBttn = overlay.querySelector('button.overlay-close'),
+      bodyElem = document.getElementsByTagName("body")[0];
+   function toggleOverlay() {
+      if(classie.has(overlay, 'open')) {
+         classie.remove(overlay, 'open');
+         $(".hide-on-search").show();
+      }
+      else {
+         classie.add(overlay, 'open');
+         $(".hide-on-search").hide();
+      }
+   }
+   function toggleScrolling() {
+      if(classie.has(bodyElem, 'modal-open')) {
+         classie.remove(bodyElem, 'modal-open');
+      } 
+      else {
+         classie.add(bodyElem, 'modal-open');
+      }
+   }
+   triggerBttn.addEventListener('click', toggleOverlay);
+   triggerBttn.addEventListener('click', toggleScrolling);
+   closeBttn.addEventListener('click', toggleOverlay);
+   closeBttn.addEventListener('click', toggleScrolling);
    })();
 </script>
 </body>
 </html>
+<script>
+$(window).scroll(
+    {
+        previousTop: 0
+    }, 
+    function () {
+    var currentTop = $(window).scrollTop();
+    if (currentTop < this.previousTop) {
+        $(".header").show();
+    } else {
+        $(".header").hide();
+    }
+    this.previousTop = currentTop;
+});
+</script>
