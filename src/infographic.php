@@ -97,7 +97,7 @@
          echo  "<img src='" . $dir_path . "'/>"; 
       }
       else {
-         echo "<p class='regtext'> Image Not Found. Try another query. </p>";
+         echo "<p class='regtext'> Image Not Found For Query " . $search_string . " Try another query. </p>";
       }
       echo "</div>";
    } 

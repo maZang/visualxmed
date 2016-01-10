@@ -199,3 +199,12 @@ $(window).scroll(
     this.previousTop = currentTop;
 });
 </script>
+<script>
+   $(window).resize(function () { 
+       $('body').css('padding-top', parseInt($('.hide-on-search').css("height"))+10);
+   });
+
+   $(window).load(function () { 
+       $('body').css('padding-top', parseInt($('.hide-on-search').css("height"))+10);        
+   });
+</script>
