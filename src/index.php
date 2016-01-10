@@ -83,7 +83,7 @@
                <h1 class="slogan align-bottom center col-xs-1 col-sm-1 col-md-1 col-lg-1 inline-block mxn1">where visuals empower health literacy</h1>
             </div>
             <nav class="center nav-hover">
-               <a href="index.php" class="btn navbutton p0 py3 mxn1 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-1 col-sm-1 col-md-1 col-lg-1 active">Home</a>
+               <a href="#" class="btn navbutton p0 py3 mxn1 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-1 col-sm-1 col-md-1 col-lg-1 active">Home</a>
                <a href="about.html" class="btn navbutton p0 py3 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">About</a>
                <a href="mission.html" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Mission</a>
                <a href="#" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Opportunities</a>
@@ -152,59 +152,7 @@
    }
    hashChanged(window.location.hash);
 </script>
-<script>
-   (function() {
-   var triggerBttn = document.getElementById('trigger-overlay'),
-      overlay = document.querySelector('div.overlay'),
-      closeBttn = overlay.querySelector('button.overlay-close'),
-      bodyElem = document.getElementsByTagName("body")[0];
-   function toggleOverlay() {
-      if(classie.has(overlay, 'open')) {
-         classie.remove(overlay, 'open');
-         $(".hide-on-search").show();
-      }
-      else {
-         classie.add(overlay, 'open');
-         $(".hide-on-search").hide();
-      }
-   }
-   function toggleScrolling() {
-      if(classie.has(bodyElem, 'modal-open')) {
-         classie.remove(bodyElem, 'modal-open');
-      } 
-      else {
-         classie.add(bodyElem, 'modal-open');
-      }
-   }
-   triggerBttn.addEventListener('click', toggleOverlay);
-   triggerBttn.addEventListener('click', toggleScrolling);
-   closeBttn.addEventListener('click', toggleOverlay);
-   closeBttn.addEventListener('click', toggleScrolling);
-   })();
-</script>
+<script src="lib/js/searchoverlay.js"></script>
 </body>
 </html>
-<script>
-$(window).scroll(
-    {
-        previousTop: 0
-    }, 
-    function () {
-    var currentTop = $(window).scrollTop();
-    if (currentTop < this.previousTop) {
-        $(".header").show();
-    } else {
-        $(".header").hide();
-    }
-    this.previousTop = currentTop;
-});
-</script>
-<script>
-   $(window).resize(function () { 
-       $('body').css('padding-top', parseInt($('.hide-on-search').css("height"))+10);
-   });
-
-   $(window).load(function () { 
-       $('body').css('padding-top', parseInt($('.hide-on-search').css("height"))+10);        
-   });
-</script>
+<script src="lib/js/resize.js"></script>

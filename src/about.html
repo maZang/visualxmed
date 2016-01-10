@@ -11,6 +11,7 @@
    <!-- <link rel="stylesheet" href="lib/tachyons/css/tachyons.css"> -->
    <link rel="stylesheet" href="lib/css/globalstyle.css">
    <link rel="stylesheet" href="lib/css/about.css">
+   <link rel="stylesheet" href="lib/css/search.css">
    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
    <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
    <!-- icon -->
@@ -33,29 +34,29 @@
    <meta name="theme-color" content="#ffffff">
    <!-- Load JS -->
    <script src="lib/jquery/jquery-2.1.4.js"></script>
-
+   <script src="lib/js/modernizr.custom.js"></script>
+   <script src="lib/js/search.js"></script>
+   <script src="lib/js/classie.js"></script>
 </head>
 
 <body>
-<header>
-   <div class="container px2 py3">
-      <div class="clearfix h2">
+<header class="hide-on-search">
+   <div class="container-fluid">
+      <div class="clearfix">
          <div class="row">
-            <div class="col-12">
-               <div class="header mb2">
-                  <img class="logo lg-col-4 sm-col-6 align-middle" src="lib/images/logo.png" />
-                  <h1 class="slogan align-bottom center sm-col-6 lg-col-8 inline-block mxn1">where visuals empower health literacy</h1>
-               </div>
+            <div class="header mb2">
+               <button id="trigger-overlay" type="button" class="regtext navbutton search col-xs-1 col-sm-1 col-md-1 col-lg-1 align-middle">
+                  <img src="lib/glyphicons_free/glyphicons/png/glyphicons-28-search.png" />
+                  Search</button>
+               <img class="logo col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 align-middle" src="lib/images/logo.png" />
+               <h1 class="slogan align-bottom center col-xs-1 col-sm-1 col-md-1 col-lg-1 inline-block mxn1">where visuals empower health literacy</h1>
             </div>
-         </div>
-
-         <div class="row">   
-            <nav class="clearfix center nav-hover">
-               <a href="index.php" class="btn navbutton p0 py3 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Home</a>
-               <a href="#" class="btn navbutton p0 py3 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2 active">About</a>
-               <a href="mission.html" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Mission</a>
-               <a href="#" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Opportunities</a>
-               <a href="contact.html" class="btn navbutton p0 mxn1 col-xs-2 col-sm-2 col-md-2 col-lg-2">Contact Us</a>
+            <nav class="center nav-hover">
+               <a href="index.php" class="btn navbutton p0 py3 mxn1 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-1 col-sm-1 col-md-1 col-lg-1">Home</a>
+               <a href="#" class="btn navbutton p0 py3 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1 active">About</a>
+               <a href="mission.html" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Mission</a>
+               <a href="#" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Opportunities</a>
+               <a href="contact.html" class="btn navbutton p0 mxn1 col-xs-1 col-sm-1 col-md-1 col-lg-1">Contact Us</a>
             </nav>
          </div>
       </div>
@@ -135,6 +136,15 @@
    </div>
 
 </footer>
+<div class="overlay overlay-contentscale hover-effect">
+      <button type="button" class="overlay-close">Close</button>
+      <div class="icon"></div>
+      <h1 class="title"> Click On Magnifying Glass To Discover </h1>
+      <input id="search" class="search-input" 
+         placeholder="Type here to search...">
+      <h4 id="results-text"> Showing results for: <b id="search-string"></b> </h4>
+      <ul id="results"> </ul>
+</div>
 </body>
 </html>
 
@@ -186,7 +196,7 @@
          elm = document.createElement("div");
          elm.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 mb3";
          person = document.createElement("img");
-         person.className = "img-responsive"
+         person.className = "max-width";
          person.setAttribute("src", "about/" + team[counter].idf + ".jpg");
          elm.appendChild(person);
          elm.appendChild(team[counter].createDescript());
@@ -199,4 +209,15 @@
       element.insertBefore(row,child);
       element.insertBefore(cleargrid,child);
    }
+</script>
+<script src="lib/js/searchoverlay.js"></script>
+<script src="lib/js/resize.js"></script>
+<script>
+   var cw = $('.max-width').width();
+   $('.max-width').css({'height':cw+'px'});
+
+   $(window).resize(function () { 
+      var cw = $('.max-width').width();
+      $('.max-width').css({'height':cw+'px'});
+   });
 </script>

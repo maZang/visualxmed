@@ -1,6 +1,6 @@
 <?php
 $errors = '';
-$email = "mzang13@gmail.com";
+$email = "webdevvisualxmed@gmail.com";
 if(empty($_POST['name'])  || empty($_POST['email']) || empty($_POST['msg']) || empty($_POST['hear'])) {
     $errors .= "\n Error: all fields are required";
 }
@@ -9,6 +9,8 @@ $name = $_POST['name'];
 $email_address = $_POST['email']; 
 $message = $_POST['msg']; 
 $hear = $_POST['hear'];
+$reason = $_POST['reason'];
+$priority = $_POST['priority'];
 
 if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email_address)) {
     $errors .= "\n Error: Invalid email address";
@@ -24,7 +26,7 @@ if(empty($errors))
 	$to = $email; 
 	$email_subject = "Contact form submission: $name";
 	$email_body = "You have received a new message. ".
-	" Here are the details:\n Name: $name \n Email: $email_address \n Message \n $message \n Hear \n $hear"; 
+	" Here are the details:\n Name: $name \n Email: $email_address \n Message: \n $message \n Hear: \n $hear \n Reason: \n $reason \n Priority: \n $priority"; 
 	
 	$headers = "From: $email\n"; 
 	$headers .= "Reply-To: $email_address";
@@ -93,7 +95,6 @@ echo nl2br($errors);
          </ul>
       </div>
    </div>
-
 </footer>
 </body>
 </html>
