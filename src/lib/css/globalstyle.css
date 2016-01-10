@@ -4,6 +4,13 @@
    font-size: 50px;
 }
 
+.sub-title {
+   color: rgba(10,10,10,0.5);
+   font-family: Lato;
+   font-size: 30px;
+   text-align: center;
+}
+
 body header {
    top: 0px;
    position: fixed;
