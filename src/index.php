@@ -60,7 +60,7 @@
       }
       $(window).scroll(function(){
          if ($(window).scrollTop() == $(document).height() - $(window).height()){
-            if($(".pagenum:last").val() <= $(".total-page").val()) {
+            if($(".pagenum:last").val() < $(".total-page").val()) {
                var pagenum = parseInt($(".pagenum:last").val()) + 1;
                getresult('getresult.php?page='+pagenum);
             }
@@ -128,8 +128,20 @@
    function hashChanged(storedHash) {
       var hash = storedHash.substring(1);
       if (hash.length > 0 && hash != "page") {
-         classie.add(bodyElem, 'modal-open');
-         $(".header").hide();
+         var infonum = hash.substring(6);
+         var infographsarray = document.getElementsByClassName('numinfo');
+         var numinfographs = infographsarray[infographsarray.length-1].value;
+         if (!isNaN(numinfographs) && numinfographs > infonum && infonum >= 0) {
+            if (classie.has(bodyElem, 'modal-open')) {}
+            else {
+               classie.add(bodyElem, 'modal-open');
+               $(".header").hide();
+            }
+         } 
+         else {
+            classie.remove(bodyElem, 'modal-open');
+            $(".header").show();
+         }
       } 
       else {
          classie.remove(bodyElem, 'modal-open');

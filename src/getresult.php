@@ -35,7 +35,7 @@
 	if(empty($_GET["rowcount"])) {
 		$_GET["rowcount"] = mysqli_num_rows($vmdb->query($sql));
 	}
-	
+		
 	$count = count($result_array);
 	$pages  = ceil($_GET["rowcount"]/$perPage);
 	$output = '';
@@ -44,6 +44,7 @@
 		$prev = $start - 1;
 		$next = $prev + 2;
 		$output .= '<input type="hidden" class="pagenum" value="' . $page . '" /><input type="hidden" class="total-page" value="' . $pages . '" />';
+		$output .= '<input type="hidden" name="hidden-numinfo" class="numinfo" value="' . ($start + $count) . '" />'; 
 		for ($i = 0; $i < ceil($count/3); $i++) {
 			$output .= '<div class="clearfix"> </div> <div class="row">';
 			for ($j = 0; $j < 3 && $accum < $count; $j++, $accum++) {
@@ -56,9 +57,9 @@
 				$output .= '<img class="img-responsive" src="lib/images/' . $result_array[$accum]['name'] . '.jpg" />';
 				$output .= '<div><h3>' . $result_array[$accum]['title'] . '</h3> </span>';
 				$output .= '<p>' . nl2br($result_array[$accum]['descrip']) . "</p>";
-				$output .= '<a href="#image-' . $prev . '" class="prev"> Prev </a>'; 
-				$output .= '<a href="#image-' . $next . '" class="next"> Next </a> </div>'; 
-				$output .= '<a href="#page" class="close"> xCLOSE </a> </div> </div> </div>'; 
+				$output .= '<a href="#image-' . $prev . '" class="btn btn-info btn-lg prev"> <span class="glyphicon glyphicon-chevron-left"></span> Previous </a>'; 
+				$output .= '<a href="#image-' . $next . '" class="btn btn-info btn-lg next"> <span class="glyphicon glyphicon-chevron-right"></span> Next  </a> </div>'; 
+				$output .= '<a href="#page" class="close"> CLOSE </a> </div> </div> </div>'; 
 				$prev = $prev + 1;
 				$next = $next + 1; 
 			} 
